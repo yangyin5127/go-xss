@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/feiin/pkg/arrays"
+	"github.com/yangyin5127/pkg/arrays"
 	// "io"
 )
 

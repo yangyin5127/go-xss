@@ -2,8 +2,9 @@ package xss_test
 
 import (
 	"fmt"
-	"github.com/feiin/go-xss"
 	"strings"
+
+	"github.com/yangyin5127/go-xss"
 )
 
 var x *xss.Xss = xss.NewXSS(xss.XssOption{})

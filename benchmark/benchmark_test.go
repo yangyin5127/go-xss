@@ -4,11 +4,13 @@ import (
 	"io/ioutil"
 	"testing"
 	"time"
+
 	// "fmt"
-	"github.com/feiin/go-xss"
 	"os"
 	"runtime"
 	"runtime/pprof"
+
+	"github.com/yangyin5127/go-xss"
 )
 
 func cpu() {
