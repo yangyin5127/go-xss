@@ -318,7 +318,6 @@ func safeAttrValue(tag, name, value string, cssFilter *cssfilter.FilterCSS) stri
 
 		if cssFilter != nil {
 			value = cssFilter.Process(value)
-			fmt.Printf("cssfilter %+v", value)
 		}
 
 	}
