@@ -2,6 +2,8 @@ package xss
 
 import (
 	"testing"
+
+	"github.com/yangyin5127/go-xss/cssfilter"
 	// "fmt"
 )
 
@@ -1402,9 +1404,12 @@ func TestSafeAttrValueReturn(t *testing.T) {
 	source := "<a href=\"javascript:alert(/xss/)\" title=\"hi\">link</a>"
 
 	html := FilterXSS(source, XssOption{
-		SafeAttrValue: func(tag, name, value string) string {
+		SafeAttrValue: func(tag, name, value string, cssFilter *cssfilter.FilterCSS) string {
 
 			ret := "$" + name + "$"
+			if name == "style" && cssFilter != nil {
+				ret = cssFilter.Process(ret)
+			}
 
 			return ret
 		},
@@ -1544,4 +1549,21 @@ func TestSingleQuotedAttributeValue(t *testing.T) {
 		t.Errorf("TestSingleQuotedAttributeValue expect: %s but:%s", expect, html)
 
 	}
+}
+
+func TestFilterWithCssFilter(t *testing.T) {
+	source := `<div style="position: fixed; width:100px; height: 200px; background: url (xxx);">hello</div>`
+
+	xssOption := NewDefaultXssOption()
+	xssOption.EnableCssFilter = true
+	xssOption.WhiteList["div"] = []string{"style"}
+
+	html := FilterXSS(source, xssOption)
+
+	expect := `<div style="width:100px; height:200px; background:url (xxx);">hello</div>`
+	if html != expect {
+		t.Errorf("TestFilterWithCssFilter expect: %s but:%s", expect, html)
+
+	}
+
 }

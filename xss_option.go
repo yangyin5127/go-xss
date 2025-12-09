@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/yangyin5127/go-xss/cssfilter"
 )
 
 type XssOption struct {
@@ -31,8 +33,11 @@ type XssOption struct {
 	OnIgnoreTagAttr func(tag, name, value string, isWhiteAttr bool) *string
 
 	StripTagBody  func(tags []string, next OnIgnoreTagFunc) StripTagBodyResult
-	SafeAttrValue func(tag, name, value string) string
+	SafeAttrValue func(tag, name, value string, cssFilter *cssfilter.FilterCSS) string
 	EscapeHTML    func(html string) string
+
+	EnableCssFilter bool
+	CssFilterOption *cssfilter.CssOption
 }
 
 type TagOption struct {
@@ -62,6 +67,12 @@ func NewDefaultXssOption() XssOption {
 	defaultOption.SafeAttrValue = safeAttrValue
 
 	return defaultOption
+}
+
+func NewCssFilterOption() *cssfilter.CssOption {
+	cssOption := cssfilter.CssOption{}
+	cssOption.WhiteList = cssfilter.DefaultCssWhiteList
+	return &cssOption
 }
 
 type OnIgnoreTagFunc func(tag string, html string, options TagOption) *string
@@ -277,7 +288,7 @@ func isSafeLinkValue(value string) bool {
 	return false
 }
 
-func safeAttrValue(tag, name, value string) string {
+func safeAttrValue(tag, name, value string, cssFilter *cssfilter.FilterCSS) string {
 
 	value = FriendlyAttrValue(value)
 	if name == "href" || name == "src" {
@@ -305,7 +316,10 @@ func safeAttrValue(tag, name, value string) string {
 			}
 		}
 
-		//TODO:FilterCSS
+		if cssFilter != nil {
+			value = cssFilter.Process(value)
+			fmt.Printf("cssfilter %+v", value)
+		}
 
 	}
 
