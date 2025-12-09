@@ -201,7 +201,7 @@ options.SingleQuotedAttributeValue = true
 
 ### 自定义 CSS 过滤器
 
-通过 `EnableCssFilter` 来启用 [CSS过滤器](github.com/yangyin5127/go-xss/cssfilter)，启用后会对 style 属性中的内容进行过滤，防止通过 CSS 进行 XSS 攻击
+通过 `EnableCssFilter` 来启用 [CSS过滤器](./cssfilter)，启用后会对 style 属性中的内容进行过滤，防止通过 CSS 进行 XSS 攻击
 
 
 ```golang
