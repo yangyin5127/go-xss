@@ -202,7 +202,7 @@ options.SingleQuotedAttributeValue = true
 
 ### Customize CSS filter
 
-If you allow the attribute style, the value will be processed by cssfilter module. The cssfilter module includes a default css whitelist. You can specify the options for cssfilter module like this:
+If you allow the attribute style, the value will be processed by [cssfilter](github.com/yangyin5127/go-xss/cssfilter) module. The cssfilter module includes a default css whitelist. You can specify the options for cssfilter module like this:
 
 
 ```
@@ -221,9 +221,7 @@ options.CssFilterOption.OnIgnoreAttr = ....
 ```
 
 
-
-
-
+more details see: github.com/yangyin5127/go-xss/cssfilter
 
 ### Quick Start
 
