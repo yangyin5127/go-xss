@@ -201,7 +201,28 @@ options.SingleQuotedAttributeValue = true
 
 ### 自定义 CSS 过滤器
 
-TODO
+通过 `EnableCssFilter` 来启用 [CSS过滤器](github.com/yangyin5127/go-xss/cssfilter)，启用后会对 style 属性中的内容进行过滤，防止通过 CSS 进行 XSS 攻击
+
+
+```golang
+
+# 例子
+// 允许css filter
+options.EnableCssFilter = true
+// 开启标签style属性白名单,默认style禁止
+options.WhiteList["div"] = []string{"style"}
+
+options.CssFilterOption = xss.NewCssFilterOption()
+options.CssFilterOption.WhiteList = ....
+// 	OnAttr func(name, value string, options StyleAttrOption) *string
+options.CssFilterOption.OnAttr = ....
+//  OnIgnoreAttr func(name, value string, options StyleAttrOption) *string
+options.CssFilterOption.OnIgnoreAttr = ....
+
+
+```
+more details see: github.com/yangyin5127/go-xss/cssfilter/css_option.go
+
 
 ## 快捷配置
 

@@ -89,3 +89,14 @@ func ExampleFilterAllTags() {
 	})
 	fmt.Printf("text: %s", html)
 }
+
+func ExampleFilterWithCss() {
+	source := `<div style="position: fixed; width:100px; height: 200px; background: url ( javascript :alert(/xss/));">hello</div>`
+
+	xssOption := xss.NewDefaultXssOption()
+	xssOption.EnableCssFilter = true
+	xssOption.WhiteList["div"] = []string{"style"}
+
+	html := xss.FilterXSS(source, xssOption)
+	fmt.Printf("safe html: %s", html)
+}

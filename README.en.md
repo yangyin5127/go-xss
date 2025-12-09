@@ -200,7 +200,28 @@ options.SingleQuotedAttributeValue = true
 // <a href='#'>Hello</a>
 ```
 
+### Customize CSS filter
 
+If you allow the attribute style, the value will be processed by [cssfilter](github.com/yangyin5127/go-xss/cssfilter) module. The cssfilter module includes a default css whitelist. You can specify the options for cssfilter module like this:
+
+
+```
+// When enabled, the content of style attribute will be filtered to prevent XSS attacks via CSS.
+options.EnableCssFilter = true
+// enable div tag's style attribute
+options.WhiteList["div"] = []string{"style"}
+
+
+options.CssFilterOption = xss.NewCssFilterOption()
+options.CssFilterOption.WhiteList = ....
+// 	OnAttr func(name, value string, options StyleAttrOption) *string
+options.CssFilterOption.OnAttr = ....
+//  OnIgnoreAttr func(name, value string, options StyleAttrOption) *string
+options.CssFilterOption.OnIgnoreAttr = ....
+```
+
+
+more details see: github.com/yangyin5127/go-xss/cssfilter
 
 ### Quick Start
 

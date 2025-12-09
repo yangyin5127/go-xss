@@ -6,12 +6,14 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/yangyin5127/go-xss/cssfilter"
 	"github.com/yangyin5127/pkg/arrays"
 	// "io"
 )
 
 type Xss struct {
-	options XssOption
+	options   XssOption
+	cssFilter *cssfilter.FilterCSS
 }
 
 // NewXSS
@@ -53,6 +55,11 @@ func NewXSS(options XssOption) *Xss {
 	xss := &Xss{
 		options: options,
 	}
+
+	if options.EnableCssFilter {
+		xss.cssFilter = cssfilter.NewFilterCSS(options.CssFilterOption)
+	}
+
 	return xss
 
 }
@@ -173,7 +180,7 @@ func (x *Xss) Process(html string) string {
 				}
 
 				if isWhiteAttr {
-					value = safeAttrValue(tag, name, value)
+					value = safeAttrValue(tag, name, value, x.cssFilter)
 					if len(value) > 0 {
 						return fmt.Sprintf("%s=%s%s%s", name, attributeWrapSign, value, attributeWrapSign) // name + "=\"" + value + "\""
 					} else {
